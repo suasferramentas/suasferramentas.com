@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolbox Hub | Ferramentas Úteis</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --panel-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --primary: #bb86fc;
+            --hover: #3700b3;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+        }
+        /* Menu Lateral */
+        .sidebar {
+            width: 250px;
+            background-color: var(--panel-color);
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+        }
+        .sidebar h2 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 30px;
+        }
+        .menu-btn {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            padding: 15px 20px;
+            text-align: left;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .menu-btn:hover, .menu-btn.active {
+            background-color: var(--hover);
+            border-left: 4px solid var(--primary);
+        }
+        /* Área Principal */
+        .content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+        /* Esconder ferramentas inativas */
+        .tool-section {
+            display: none;
+            background-color: var(--panel-color);
+            padding: 30px;
+            border-radius: 8px;
+        }
+        .tool-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Menu Lateral -->
+    <div class="sidebar">
+        <h2>Toolbox Hub</h2>
+        <button class="menu-btn active" onclick="switchTool('prompts', this)">🤖 Criador de Prompts</button>
+        <button class="menu-btn" onclick="switchTool('roteiros', this)">✂️ Formatador de Legendas</button>
+        <button class="menu-btn" onclick="switchTool('cripto', this)">📈 Preço Médio (Cripto)</button>
+    </div>
+
+    <!-- Área Principal de Ferramentas -->
+    <div class="content">
+        
+        <!-- Ferramenta 1: Prompts -->
+        <div id="prompts" class="tool-section active">
+            <h2>Otimizador de Prompts para IA</h2>
+            <p>Em breve: Preencha os campos e gere um super prompt instantaneamente.</p>
+            <!-- O formulário e a lógica entrarão aqui -->
+        </div>
+
+        <!-- Ferramenta 2: Roteiros -->
+        <div id="roteiros" class="tool-section">
+            <h2>Formatador de Roteiros e Legendas</h2>
+            <p>Em breve: Cole seu texto longo e receba frases curtas cronometradas.</p>
+            <!-- O formulário e a lógica entrarão aqui -->
+        </div>
+
+        <!-- Ferramenta 3: Cripto -->
+        <div id="cripto" class="tool-section">
+            <h2>Calculadora de Preço Médio</h2>
+            <p>Em breve: Adicione seus aportes e descubra seu preço médio exato.</p>
+            <!-- O formulário e a lógica entrarão aqui -->
+        </div>
+
+    </div>
+
+    <!-- Script para alternar as abas -->
+    <script>
+        function switchTool(toolId, btnElement) {
+            // Esconde todas as ferramentas
+            document.querySelectorAll('.tool-section').forEach(el => el.classList.remove('active'));
+            // Remove a classe 'active' de todos os botões
+            document.querySelectorAll('.menu-btn').forEach(el => el.classList.remove('active'));
+            
+            // Mostra a ferramenta selecionada e destaca o botão
+            document.getElementById(toolId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+    </script>
+</body>
+</html>
