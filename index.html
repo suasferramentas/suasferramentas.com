@@ -3,210 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toolbox Hub | Ferramentas Avançadas</title>
+    <title>DevTools | Ferramentas Avançadas</title>
+    
+    <!-- Favicon dinâmico (Emoji) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛠️</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --bg-color: #0f1115;
-            --panel-color: #1a1d24;
-            --text-color: #e2e8f0;
+            --bg-color: #0b0f19;
+            --panel-bg: #111827;
+            --panel-border: #1f2937;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
             --primary: #3b82f6;
             --primary-hover: #2563eb;
+            --accent: #10b981;
             --danger: #ef4444;
-            --danger-hover: #dc2626;
-            --input-bg: #272a35;
+            --input-bg: #1f2937;
         }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-main);
             margin: 0;
             display: flex;
-            height: 100vh;
-        }
-        /* Sidebar */
-        .sidebar {
-            width: 260px;
-            background-color: var(--panel-color);
-            display: flex;
             flex-direction: column;
-            border-right: 1px solid #2d313d;
+            min-height: 100vh;
         }
-        .sidebar h2 {
-            text-align: center;
-            color: #fff;
-            margin: 25px 0;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
+
+        /* Navbar Superior */
+        header {
+            background-color: var(--panel-bg);
+            border-bottom: 1px solid var(--panel-border);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .menu-btn {
-            width: 100%;
-            background: none;
-            border: none;
-            color: #94a3b8;
-            padding: 15px 20px;
-            text-align: left;
-            font-size: 15px;
+        header h1 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Abas de Navegação (Menu) */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 25px 20px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            color: var(--text-muted);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
-            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
         }
-        .menu-btn:hover, .menu-btn.active {
-            background-color: #232730;
+        .tab-btn:hover { border-color: var(--primary); color: var(--text-main); }
+        .tab-btn.active {
+            background-color: var(--primary);
+            border-color: var(--primary);
             color: #fff;
-            border-left: 3px solid var(--primary);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
-        /* Newsletter Box */
-        .newsletter-box {
-            margin-top: auto;
-            padding: 20px;
-            background-color: #14161b;
-            border-top: 1px solid #2d313d;
-            text-align: center;
-        }
-        .newsletter-box p { font-size: 0.85rem; color: #94a3b8; margin-top: 0; }
-        .newsletter-box input { margin-bottom: 10px; font-size: 0.9rem; }
-        /* Main Content */
-        .content {
+
+        /* Container Principal */
+        main {
             flex: 1;
-            padding: 40px;
-            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
+
+        /* Seções de Ferramentas */
         .tool-section {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 650px;
             display: none;
-            background-color: var(--panel-color);
-            padding: 35px;
-            border-radius: 12px;
-            max-width: 700px;
-            margin: 0 auto;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 0.4s ease-out;
         }
         .tool-section.active { display: block; }
-        h2.tool-title { margin-top: 0; color: #fff; }
-        /* Formulários */
-        label { display: block; margin-top: 18px; margin-bottom: 6px; font-size: 0.9rem; color: #cbd5e1; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tool-title { margin-top: 0; font-size: 1.5rem; margin-bottom: 25px; }
+
+        /* Elementos de Formulário */
+        label { display: block; margin-top: 20px; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted); }
         input, textarea, select {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background-color: var(--input-bg);
-            border: 1px solid #374151;
-            color: white;
-            border-radius: 6px;
+            border: 1px solid var(--panel-border);
+            color: var(--text-main);
+            border-radius: 8px;
             box-sizing: border-box;
             font-family: inherit;
+            font-size: 1rem;
+            transition: border 0.3s;
         }
-        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); }
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        input:focus, textarea:focus { outline: none; border-color: var(--primary); }
+        
+        /* Botões de Ação */
+        .btn-group { display: flex; gap: 15px; margin-top: 25px; }
         button.action-btn {
             flex: 1;
-            padding: 12px;
+            padding: 14px;
             background-color: var(--primary);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
             transition: 0.2s;
         }
         button.action-btn:hover { background-color: var(--primary-hover); }
-        button.danger-btn { background-color: var(--danger); }
-        button.danger-btn:hover { background-color: var(--danger-hover); }
-        
+        button.danger-btn { background-color: var(--panel-bg); border: 1px solid var(--danger); color: var(--danger); }
+        button.danger-btn:hover { background-color: var(--danger); color: white; }
+
+        /* Resultado e Caixa de Copiar */
+        .result-container { position: relative; margin-top: 30px; }
         .result-box {
-            margin-top: 25px;
-            padding: 18px;
-            background-color: #0f1115;
-            border: 1px solid #2d313d;
-            min-height: 80px;
+            padding: 20px;
+            background-color: #05070a;
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            color: var(--text-main);
+            min-height: 100px;
             white-space: pre-wrap;
-            border-radius: 6px;
-            color: #10b981;
-            font-family: monospace;
+            font-family: 'Inter', monospace;
             font-size: 0.95rem;
-            position: relative;
+            line-height: 1.5;
         }
-        /* Tabela */
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #1f2937;
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .copy-btn:hover { background: var(--primary); }
+
+        /* Seletor de IAs (Grid) */
+        .ai-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .ai-btn {
+            background: var(--input-bg);
+            border: 1px solid var(--panel-border);
+            padding: 12px;
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .ai-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* Tabela Cripto */
+        .crypto-dashboard {
+            background: #05070a;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--panel-border);
+            text-align: center;
+            margin-top: 30px;
+        }
+        .highlight { color: var(--accent); font-size: 2rem; font-weight: 700; margin: 10px 0; }
         table { width: 100%; margin-top: 25px; border-collapse: collapse; }
-        th, td { padding: 12px; border-bottom: 1px solid #2d313d; text-align: left; }
-        th { color: #94a3b8; font-weight: normal; font-size: 0.9rem; }
-        .highlight { color: #3b82f6; font-size: 1.5rem; font-weight: bold; }
+        th, td { padding: 15px 10px; border-bottom: 1px solid var(--panel-border); text-align: left; }
+        th { color: var(--text-muted); font-weight: normal; font-size: 0.9rem; }
+
+        /* Rodapé de Leads */
+        footer {
+            background-color: var(--panel-bg);
+            border-top: 1px solid var(--panel-border);
+            padding: 25px;
+            text-align: center;
+            margin-top: auto;
+        }
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            max-width: 400px;
+            margin: 15px auto 0 auto;
+        }
+        .newsletter-form input { padding: 10px 15px; }
+        .newsletter-form button { width: auto; padding: 10px 20px; }
     </style>
 </head>
 <body>
 
-    <!-- Menu Lateral -->
-    <div class="sidebar">
-        <h2>🛠️ Toolbox Hub</h2>
-        <button class="menu-btn active" onclick="switchTool('prompts', this)">🤖 Otimizador de Prompts</button>
-        <button class="menu-btn" onclick="switchTool('roteiros', this)">✂️ Formatador de Textos</button>
-        <button class="menu-btn" onclick="switchTool('cripto', this)">📈 Preço Médio (Aportes)</button>
-        
-        <!-- Área de Captura de Leads (Newsletter) -->
-        <div class="newsletter-box">
-            <p>Receba novas ferramentas no seu e-mail:</p>
-            <input type="email" id="lead-email" placeholder="Seu melhor e-mail">
-            <button class="action-btn" style="padding: 8px; font-size: 0.9rem;" onclick="subscribeLead()">Inscrever-se</button>
-            <div id="lead-msg" style="margin-top: 8px; font-size: 0.8rem; color: #10b981;"></div>
-        </div>
+    <header>
+        <h1>DevTools</h1>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">V 2.0</span>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTool('prompts', this)">🤖 Prompts IA</button>
+        <button class="tab-btn" onclick="switchTool('roteiros', this)">✂️ Formatador</button>
+        <button class="tab-btn" onclick="switchTool('cripto', this)">📈 Preço Médio</button>
     </div>
 
-    <!-- Área Principal -->
-    <div class="content">
+    <main>
         
         <!-- Ferramenta 1: Prompts -->
         <div id="prompts" class="tool-section active">
-            <h2 class="tool-title">Otimizador de Prompts</h2>
+            <h2 class="tool-title">Criador de Prompts Mestre</h2>
             
-            <label>Qual IA você vai utilizar?</label>
-            <select id="prompt-ai">
-                <option value="chatgpt">ChatGPT (Foco em Lógica)</option>
-                <option value="claude">Claude (Foco em Escrita/Análise com XML)</option>
-                <option value="gemini">Gemini (Foco em Workspace/Dados)</option>
-                <option value="manus">Manus (Agente Autônomo)</option>
-            </select>
-
-            <label>Qual o papel da IA? (Ex: Copywriter, Programador Sênior)</label>
-            <input type="text" id="prompt-role">
+            <label>Qual modelo de IA você vai usar?</label>
+            <div class="ai-selector">
+                <button class="ai-btn selected" onclick="selectAI(this, 'chatgpt')">ChatGPT</button>
+                <button class="ai-btn" onclick="selectAI(this, 'claude')">Claude</button>
+                <button class="ai-btn" onclick="selectAI(this, 'gemini')">Gemini</button>
+                <button class="ai-btn" onclick="selectAI(this, 'manus')">Manus</button>
+            </div>
             
-            <label>Qual a tarefa exata a ser feita?</label>
-            <textarea id="prompt-task" rows="3"></textarea>
+            <label>Qual o papel do assistente?</label>
+            <input type="text" id="prompt-role" placeholder="Ex: Programador Sênior em Python">
             
-            <button class="action-btn" onclick="generatePrompt()">Gerar Prompt Otimizado</button>
-            <div id="prompt-result" class="result-box">Seu prompt aparecerá aqui...</div>
+            <label>Descreva a tarefa em detalhes:</label>
+            <textarea id="prompt-task" rows="4" placeholder="O que ele deve fazer?"></textarea>
+            
+            <button class="action-btn" style="margin-top: 20px;" onclick="generatePrompt()">Gerar Comando Otimizado</button>
+            
+            <div class="result-container">
+                <button class="copy-btn" onclick="copyText('prompt-result', this)">Copiar</button>
+                <div id="prompt-result" class="result-box">Seu prompt formatado aparecerá aqui...</div>
+            </div>
         </div>
 
         <!-- Ferramenta 2: Roteiros -->
         <div id="roteiros" class="tool-section">
-            <h2 class="tool-title">Formatador de Textos e Roteiros</h2>
-            <label>Cole seu texto longo aqui:</label>
-            <textarea id="script-input" rows="8" placeholder="Remova blocos maciços de texto. Ideal para jogar em teleprompters ou editores de legenda."></textarea>
+            <h2 class="tool-title">Formatador de Leituras</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Ideal para quebrar roteiros antes de jogar no teleprompter ou legendar vídeos.</p>
             
-            <button class="action-btn" onclick="formatScript()">Formatar para Leitura Dinâmica</button>
-            <div id="script-result" class="result-box">Resultado...</div>
+            <label>Cole o bloco de texto aqui:</label>
+            <textarea id="script-input" rows="8" placeholder="Cole o texto gigante aqui..."></textarea>
+            
+            <button class="action-btn" style="margin-top: 20px;" onclick="formatScript()">Formatar Frases</button>
+            
+            <div class="result-container">
+                <button class="copy-btn" onclick="copyText('script-result', this)">Copiar</button>
+                <div id="script-result" class="result-box">Resultado...</div>
+            </div>
         </div>
 
         <!-- Ferramenta 3: Cripto -->
         <div id="cripto" class="tool-section">
-            <h2 class="tool-title">Calculadora de Preço Médio</h2>
-            <div style="display: flex; gap: 15px;">
+            <h2 class="tool-title">Calculadora de Aportes</h2>
+            
+            <div style="display: flex; gap: 15px; margin-top: 20px;">
                 <div style="flex: 1;">
-                    <label>Quantidade comprada</label>
+                    <label style="margin-top:0">Qtd. Comprada</label>
                     <input type="number" id="crypto-qtd" step="any" placeholder="Ex: 0.05">
                 </div>
                 <div style="flex: 1;">
-                    <label>Preço Unitário Pago ($)</label>
+                    <label style="margin-top:0">Preço Pago (US$)</label>
                     <input type="number" id="crypto-price" step="any" placeholder="Ex: 65000">
                 </div>
             </div>
             
             <div class="btn-group">
-                <button class="action-btn" onclick="addPurchase()">Adicionar Aporte</button>
-                <button class="action-btn danger-btn" onclick="clearPurchases()">Limpar Tudo</button>
+                <button class="action-btn" onclick="addPurchase()">+ Adicionar à Carteira</button>
+                <button class="action-btn danger-btn" onclick="clearPurchases()">Resetar</button>
             </div>
             
-            <div style="margin-top: 25px; padding: 20px; background: #14161b; border-radius: 8px; text-align: center; border: 1px solid #2d313d;">
-                <p style="margin: 0 0 10px 0; color: #94a3b8;">Preço Médio Atual:</p>
+            <div class="crypto-dashboard">
+                <p style="margin: 0; color: var(--text-muted);">Seu Preço Médio</p>
                 <div id="average-price" class="highlight">US$ 0.00</div>
-                <p style="font-size: 0.85em; color: #64748b; margin-top: 10px;">Total Acumulado: <span id="total-coins">0</span> moedas</p>
+                <p style="font-size: 0.9em; color: var(--text-muted); margin: 0;">Total Acumulado: <span id="total-coins" style="color: white; font-weight:bold;">0</span> ativos</p>
             </div>
 
             <table id="crypto-table">
@@ -214,105 +308,161 @@
             </table>
         </div>
 
-    </div>
+    </main>
 
-    <!-- LÓGICA JAVASCRIPT -->
+    <!-- Rodapé: Captura de Leads -->
+    <footer>
+        <h3 style="margin: 0 0 5px 0; font-size: 1.1rem;">Gostou das ferramentas?</h3>
+        <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Deixe seu e-mail para ser avisado quando lançarmos novidades.</p>
+        
+        <div class="newsletter-form">
+            <input type="email" id="lead-email" placeholder="Seu melhor e-mail">
+            <button class="action-btn" onclick="subscribeLead()">Inscrever-se</button>
+        </div>
+        <div id="lead-msg" style="margin-top: 10px; font-size: 0.85rem; color: var(--accent); min-height: 20px;"></div>
+    </footer>
+
     <script>
         // ==========================================
         // ⚠️ COLE O LINK DO SEU GOOGLE SCRIPT ABAIXO
         // ==========================================
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwonUGLMgdboTk4nIeDViopd8ulz4q6XLqvRD0ioX0cmOAXlrVgsTgS8c5l-gOJWipZ/exec";
+        const GOOGLE_SCRIPT_URL = "COLE_AQUI_O_LINK_DO_SEU_GOOGLE_APPS_SCRIPT";
 
         // Navegação
         function switchTool(toolId, btnElement) {
             document.querySelectorAll('.tool-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.menu-btn').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(toolId).classList.add('active');
             btnElement.classList.add('active');
         }
 
-        // Enviar E-mail para Planilha
-        function subscribeLead() {
-            const email = document.getElementById('lead-email').value;
-            if(!email || !email.includes('@')) {
-                alert("Por favor, digite um e-mail válido.");
-                return;
-            }
+        // Função Genérica de Copiar
+        function copyText(elementId, btn) {
+            const text = document.getElementById(elementId).innerText;
+            if(!text || text.includes('aparecerá aqui') || text === 'Resultado...') return;
             
-            document.getElementById('lead-msg').innerText = "Enviando...";
-
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors', // Evita bloqueios de segurança do navegador
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({ 'email': email })
-            }).then(() => {
-                document.getElementById('lead-msg').innerText = "Inscrito com sucesso!";
-                document.getElementById('lead-email').value = '';
-                setTimeout(() => document.getElementById('lead-msg').innerText = '', 3000);
-            }).catch(() => {
-                document.getElementById('lead-msg').innerText = "Erro ao inscrever.";
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = "Copiado! ✓";
+                btn.style.background = "var(--accent)";
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.background = "#1f2937";
+                }, 2000);
             });
         }
 
-        // Otimizador de Prompts
+        // Captura de Leads
+        function subscribeLead() {
+            const email = document.getElementById('lead-email').value;
+            if(!email || !email.includes('@')) {
+                document.getElementById('lead-msg').innerText = "Por favor, digite um e-mail válido.";
+                document.getElementById('lead-msg').style.color = "var(--danger)";
+                return;
+            }
+            
+            document.getElementById('lead-msg').style.color = "var(--text-muted)";
+            document.getElementById('lead-msg').innerText = "Processando inscrição...";
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ 'email': email })
+            }).then(() => {
+                document.getElementById('lead-msg').style.color = "var(--accent)";
+                document.getElementById('lead-msg').innerText = "Inscrição confirmada com sucesso! 🚀";
+                document.getElementById('lead-email').value = '';
+                setTimeout(() => document.getElementById('lead-msg').innerText = '', 4000);
+            }).catch(() => {
+                document.getElementById('lead-msg').style.color = "var(--danger)";
+                document.getElementById('lead-msg').innerText = "Erro ao enviar. Tente novamente mais tarde.";
+            });
+        }
+
+        // Lógica do Otimizador de Prompts
+        let selectedAI = 'chatgpt';
+        function selectAI(btn, aiType) {
+            document.querySelectorAll('.ai-btn').forEach(el => el.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedAI = aiType;
+        }
+
         function generatePrompt() {
-            const ai = document.getElementById('prompt-ai').value;
             const role = document.getElementById('prompt-role').value || "Especialista";
             const task = document.getElementById('prompt-task').value;
             
-            if(!task) { alert("A Tarefa é obrigatória."); return; }
+            if(!task) { 
+                alert("Por favor, descreva a tarefa."); 
+                document.getElementById('prompt-task').focus();
+                return; 
+            }
 
             let prompt = "";
-            if(ai === 'claude') {
-                prompt = `Aja como um ${role}.\n\n<task>\n${task}\n</task>\n\n<instructions>\n- Analise detalhadamente antes de responder.\n- Use um tom profissional e direto.\n</instructions>`;
-            } else if (ai === 'manus') {
-                prompt = `Você é um agente autônomo. Seu papel principal é: ${role}.\n\nObjetivo final da execução:\n${task}\n\nDiretrizes de autonomia:\n- Execute os passos necessários sem pedir permissão a cada etapa.\n- Apresente o resultado final consolidado.\n- Se faltar alguma ferramenta, encontre uma rota alternativa.`;
-            } else if (ai === 'gemini') {
-                prompt = `Atue como um ${role}.\n\nTarefa:\n${task}\n\nInstrução:\n- Considere o contexto de produtividade (documentos e dados).\n- Formate a saída de maneira limpa (use tabelas se fizer sentido).`;
+            if(selectedAI === 'claude') {
+                prompt = `Aja como um ${role} altamente capacitado.\n\n<task>\n${task}\n</task>\n\n<instructions>\n- Realize uma análise profunda antes de gerar a resposta.\n- Estruture a saída com clareza, utilizando formatação adequada.\n- Use um tom profissional e estritamente focado no objetivo.\n</instructions>`;
+            } else if (selectedAI === 'manus') {
+                prompt = `Você é um agente de execução autônomo. Seu escopo de atuação é: ${role}.\n\nObjetivo final da execução:\n${task}\n\nDiretrizes de autonomia e operação:\n1. Execute todas as etapas necessárias sem solicitar permissões intermediárias.\n2. Se encontrar bloqueios ou ferramentas indisponíveis, busque ativamente uma rota alternativa para atingir o objetivo.\n3. Entregue apenas o resultado final consolidado, sem narrar o processo passo a passo.`;
+            } else if (selectedAI === 'gemini') {
+                prompt = `Atue como um ${role}.\n\nSua missão é:\n${task}\n\nInstruções de Integração:\n- Considere o contexto de produtividade e análise de dados (ex: planilhas, documentos).\n- Formate a saída de maneira limpa. Se houver dados comparativos, utilize tabelas.\n- Evite introduções longas, vá direto para a solução.`;
             } else {
-                prompt = `Aja como um ${role}.\n\nSua tarefa é:\n${task}\n\nRegras:\n1. Pense passo a passo antes de dar a resposta final.\n2. Seja claro, conciso e evite jargões desnecessários.`;
+                prompt = `Assuma o papel de um ${role}.\n\nSua tarefa exata é:\n${task}\n\nRegras para a resposta:\n1. Respire fundo e pense passo a passo antes de construir a solução.\n2. Seja cirúrgico, conciso e evite jargões desnecessários ou respostas genéricas.\n3. Formate a leitura para ser escaneável (use bullet points se necessário).`;
             }
             
             document.getElementById('prompt-result').innerText = prompt;
         }
 
-        // Formatador de Textos
+        // Lógica do Formatador de Textos
         function formatScript() {
             const text = document.getElementById('script-input').value;
             if(!text) return;
-            // Melhora a quebra considerando exclamações e interrogações, não só pontos.
-            let formattedText = text.replace(/([.?!])\s*(?=[A-Z])/g, "$1\n\n");
+            // Quebra após ponto, interrogação ou exclamação, desde que seguido por letra maiúscula ou espaço.
+            let formattedText = text.replace(/([.?!])\s*(?=[A-ZÀ-Ÿ])/g, "$1\n\n");
             document.getElementById('script-result').innerText = formattedText;
         }
 
-        // Calculadora de Cripto
+        // Lógica da Calculadora Cripto
         let purchases = [];
         function addPurchase() {
             const qtd = parseFloat(document.getElementById('crypto-qtd').value);
             const price = parseFloat(document.getElementById('crypto-price').value);
-            if(!qtd || !price || qtd <= 0 || price <= 0) return alert("Valores inválidos.");
+            
+            if(!qtd || !price || qtd <= 0 || price <= 0) {
+                alert("Por favor, insira valores válidos maiores que zero.");
+                return;
+            }
+            
             purchases.push({ qtd: qtd, price: price, total: qtd * price });
             updateCryptoUI();
+            
             document.getElementById('crypto-qtd').value = '';
             document.getElementById('crypto-price').value = '';
             document.getElementById('crypto-qtd').focus();
         }
         
         function clearPurchases() {
-            purchases = [];
-            updateCryptoUI();
+            if(confirm("Tem certeza que deseja limpar todos os aportes?")) {
+                purchases = [];
+                updateCryptoUI();
+            }
         }
 
         function updateCryptoUI() {
             let totalQtd = 0, totalSpent = 0;
             let tableHTML = `<tr><th>Qtd</th><th>Preço Un.</th><th>Total Pago</th></tr>`;
+            
             purchases.forEach(p => {
                 totalQtd += p.qtd;
                 totalSpent += p.total;
-                tableHTML += `<tr><td>${p.qtd}</td><td>$${p.price.toLocaleString('en-US', {minimumFractionDigits: 2})}</td><td>$${p.total.toLocaleString('en-US', {minimumFractionDigits: 2})}</td></tr>`;
+                tableHTML += `<tr>
+                    <td>${p.qtd}</td>
+                    <td>US$ ${p.price.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>US$ ${p.total.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                </tr>`;
             });
+            
             const avgPrice = totalQtd > 0 ? (totalSpent / totalQtd) : 0;
+            
             document.getElementById('average-price').innerText = `US$ ${avgPrice.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
             document.getElementById('total-coins').innerText = totalQtd.toFixed(6);
             document.getElementById('crypto-table').innerHTML = tableHTML;
