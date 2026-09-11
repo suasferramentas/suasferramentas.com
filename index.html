@@ -10,7 +10,9 @@
             --panel-color: #1e1e1e;
             --text-color: #e0e0e0;
             --primary: #bb86fc;
+            --primary-hover: #9965f4;
             --hover: #3700b3;
+            --input-bg: #2d2d2d;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -26,6 +28,8 @@
             background-color: var(--panel-color);
             padding: 20px 0;
             box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
         }
         .sidebar h2 {
             text-align: center;
@@ -53,16 +57,55 @@
             padding: 40px;
             overflow-y: auto;
         }
-        /* Esconder ferramentas inativas */
         .tool-section {
             display: none;
             background-color: var(--panel-color);
             padding: 30px;
             border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto;
         }
         .tool-section.active {
             display: block;
         }
+        /* Elementos de Formulário */
+        label { display: block; margin-top: 15px; margin-bottom: 5px; font-weight: bold; }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--input-bg);
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        button.action-btn {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background-color: var(--primary);
+            color: black;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+        }
+        button.action-btn:hover { background-color: var(--primary-hover); }
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #000;
+            border-left: 4px solid var(--primary);
+            min-height: 50px;
+            white-space: pre-wrap;
+            border-radius: 4px;
+        }
+        /* Tabela Cripto */
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th, td { padding: 10px; border-bottom: 1px solid #444; text-align: left; }
+        .highlight { color: var(--primary); font-size: 1.2em; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -71,47 +114,157 @@
     <div class="sidebar">
         <h2>Toolbox Hub</h2>
         <button class="menu-btn active" onclick="switchTool('prompts', this)">🤖 Criador de Prompts</button>
-        <button class="menu-btn" onclick="switchTool('roteiros', this)">✂️ Formatador de Legendas</button>
-        <button class="menu-btn" onclick="switchTool('cripto', this)">📈 Preço Médio (Cripto)</button>
+        <button class="menu-btn" onclick="switchTool('roteiros', this)">✂️ Formatador de Textos</button>
+        <button class="menu-btn" onclick="switchTool('cripto', this)">📈 Preço Médio</button>
     </div>
 
-    <!-- Área Principal de Ferramentas -->
+    <!-- Área Principal -->
     <div class="content">
         
         <!-- Ferramenta 1: Prompts -->
         <div id="prompts" class="tool-section active">
             <h2>Otimizador de Prompts para IA</h2>
-            <p>Em breve: Preencha os campos e gere um super prompt instantaneamente.</p>
-            <!-- O formulário e a lógica entrarão aqui -->
+            <p>Preencha os dados abaixo para gerar um comando detalhado para IAs.</p>
+            
+            <label>Qual o papel da IA?</label>
+            <input type="text" id="prompt-role" placeholder="Ex: Especialista em Marketing, Programador Sênior...">
+            
+            <label>O que ela deve fazer? (Tarefa)</label>
+            <textarea id="prompt-task" rows="3" placeholder="Ex: Criar um cronograma de postagens para o Instagram..."></textarea>
+            
+            <label>Qual o tom de voz / estilo?</label>
+            <input type="text" id="prompt-tone" placeholder="Ex: Formal, descontraído, persuasivo...">
+            
+            <button class="action-btn" onclick="generatePrompt()">Gerar Prompt Mestre</button>
+            
+            <div id="prompt-result" class="result-box">Seu prompt aparecerá aqui...</div>
         </div>
 
         <!-- Ferramenta 2: Roteiros -->
         <div id="roteiros" class="tool-section">
-            <h2>Formatador de Roteiros e Legendas</h2>
-            <p>Em breve: Cole seu texto longo e receba frases curtas cronometradas.</p>
-            <!-- O formulário e a lógica entrarão aqui -->
+            <h2>Formatador para Legendas/Teleprompter</h2>
+            <p>Quebra textos longos em frases curtas para facilitar a leitura e edição.</p>
+            
+            <label>Cole seu texto longo aqui:</label>
+            <textarea id="script-input" rows="6" placeholder="Cole aqui aquele parágrafo gigante..."></textarea>
+            
+            <button class="action-btn" onclick="formatScript()">Formatar Texto</button>
+            
+            <div id="script-result" class="result-box">Seu texto formatado aparecerá aqui...</div>
         </div>
 
-        <!-- Ferramenta 3: Cripto -->
+        <!-- Ferramenta 3: Cripto/Ações -->
         <div id="cripto" class="tool-section">
             <h2>Calculadora de Preço Médio</h2>
-            <p>Em breve: Adicione seus aportes e descubra seu preço médio exato.</p>
-            <!-- O formulário e a lógica entrarão aqui -->
+            <p>Adicione seus aportes parciais para descobrir seu preço médio.</p>
+            
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label>Quantidade (Ex: 0.5)</label>
+                    <input type="number" id="crypto-qtd" step="any" placeholder="0.00">
+                </div>
+                <div style="flex: 1;">
+                    <label>Preço Pago (Ex: 1500)</label>
+                    <input type="number" id="crypto-price" step="any" placeholder="US$ 0.00">
+                </div>
+            </div>
+            
+            <button class="action-btn" onclick="addPurchase()">Adicionar Aporte</button>
+            
+            <div style="margin-top: 30px; padding: 20px; background: #000; border-radius: 8px; text-align: center;">
+                <p>Seu Preço Médio Atual:</p>
+                <div id="average-price" class="highlight">US$ 0.00</div>
+                <p style="font-size: 0.9em; color: #888;">Total Acumulado: <span id="total-coins">0</span> moedas</p>
+            </div>
+
+            <table id="crypto-table">
+                <tr>
+                    <th>Qtd</th>
+                    <th>Preço Un.</th>
+                    <th>Total Pago</th>
+                </tr>
+            </table>
         </div>
 
     </div>
 
-    <!-- Script para alternar as abas -->
+    <!-- Lógica de Funcionamento (JavaScript) -->
     <script>
+        // --- Navegação ---
         function switchTool(toolId, btnElement) {
-            // Esconde todas as ferramentas
             document.querySelectorAll('.tool-section').forEach(el => el.classList.remove('active'));
-            // Remove a classe 'active' de todos os botões
             document.querySelectorAll('.menu-btn').forEach(el => el.classList.remove('active'));
-            
-            // Mostra a ferramenta selecionada e destaca o botão
             document.getElementById(toolId).classList.add('active');
             btnElement.classList.add('active');
+        }
+
+        // --- Ferramenta 1: Prompts ---
+        function generatePrompt() {
+            const role = document.getElementById('prompt-role').value;
+            const task = document.getElementById('prompt-task').value;
+            const tone = document.getElementById('prompt-tone').value;
+            
+            if(!task) {
+                alert("Por favor, preencha pelo menos a Tarefa.");
+                return;
+            }
+
+            const prompt = `Aja como um ${role || 'especialista'}.\n\nSua tarefa é: ${task}\n\nDiretrizes adicionais:\n- Use um tom de voz ${tone || 'neutro e claro'}.\n- Responda de forma estruturada e vá direto ao ponto.`;
+            
+            document.getElementById('prompt-result').innerText = prompt;
+        }
+
+        // --- Ferramenta 2: Roteiros ---
+        function formatScript() {
+            const text = document.getElementById('script-input').value;
+            if(!text) return;
+
+            // Quebra o texto por pontos finais e remove espaços extras
+            let sentences = text.split('. ').map(s => s.trim()).filter(s => s.length > 0);
+            
+            // Junta as frases colocando uma quebra de linha dupla entre elas
+            let formattedText = sentences.join('.\n\n') + (text.endsWith('.') ? '' : '.');
+            
+            document.getElementById('script-result').innerText = formattedText;
+        }
+
+        // --- Ferramenta 3: Preço Médio ---
+        let purchases = [];
+        
+        function addPurchase() {
+            const qtd = parseFloat(document.getElementById('crypto-qtd').value);
+            const price = parseFloat(document.getElementById('crypto-price').value);
+            
+            if(!qtd || !price || qtd <= 0 || price <= 0) {
+                alert("Preencha valores válidos.");
+                return;
+            }
+
+            // Salva na lista
+            purchases.push({ qtd: qtd, price: price, total: qtd * price });
+            updateCryptoUI();
+            
+            // Limpa os campos
+            document.getElementById('crypto-qtd').value = '';
+            document.getElementById('crypto-price').value = '';
+        }
+
+        function updateCryptoUI() {
+            let totalQtd = 0;
+            let totalSpent = 0;
+            let tableHTML = `<tr><th>Qtd</th><th>Preço Un.</th><th>Total Pago</th></tr>`;
+
+            purchases.forEach(p => {
+                totalQtd += p.qtd;
+                totalSpent += p.total;
+                tableHTML += `<tr><td>${p.qtd}</td><td>$${p.price.toFixed(2)}</td><td>$${p.total.toFixed(2)}</td></tr>`;
+            });
+
+            const avgPrice = totalSpent / totalQtd;
+
+            document.getElementById('average-price').innerText = `US$ ${avgPrice.toFixed(2)}`;
+            document.getElementById('total-coins').innerText = totalQtd.toFixed(4);
+            document.getElementById('crypto-table').innerHTML = tableHTML;
         }
     </script>
 </body>
