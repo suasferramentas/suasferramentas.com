@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevTools | Ferramentas Avançadas</title>
     
-    <!-- Favicon dinâmico (Emoji) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛠️</text></svg>">
-    
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -35,7 +32,6 @@
             min-height: 100vh;
         }
 
-        /* Navbar Superior */
         header {
             background-color: var(--panel-bg);
             border-bottom: 1px solid var(--panel-border);
@@ -53,7 +49,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Abas de Navegação (Menu) */
         .tabs {
             display: flex;
             justify-content: center;
@@ -71,6 +66,9 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-sizing: border-box;
         }
         .tab-btn:hover { border-color: var(--primary); color: var(--text-main); }
         .tab-btn.active {
@@ -80,7 +78,6 @@
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
-        /* Container Principal */
         main {
             flex: 1;
             padding: 20px;
@@ -89,7 +86,6 @@
             align-items: flex-start;
         }
 
-        /* Seções de Ferramentas */
         .tool-section {
             background-color: var(--panel-bg);
             border: 1px solid var(--panel-border);
@@ -110,7 +106,6 @@
 
         .tool-title { margin-top: 0; font-size: 1.5rem; margin-bottom: 25px; }
 
-        /* Elementos de Formulário */
         label { display: block; margin-top: 20px; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted); }
         input, textarea, select {
             width: 100%;
@@ -126,7 +121,6 @@
         }
         input:focus, textarea:focus { outline: none; border-color: var(--primary); }
         
-        /* Botões de Ação */
         .btn-group { display: flex; gap: 15px; margin-top: 25px; }
         button.action-btn {
             flex: 1;
@@ -144,7 +138,6 @@
         button.danger-btn { background-color: var(--panel-bg); border: 1px solid var(--danger); color: var(--danger); }
         button.danger-btn:hover { background-color: var(--danger); color: white; }
 
-        /* Resultado e Caixa de Copiar */
         .result-container { position: relative; margin-top: 30px; }
         .result-box {
             padding: 20px;
@@ -154,9 +147,9 @@
             color: var(--text-main);
             min-height: 100px;
             white-space: pre-wrap;
-            font-family: 'Inter', monospace;
+            font-family: 'Inter', sans-serif;
             font-size: 0.95rem;
-            line-height: 1.5;
+            line-height: 1.6;
         }
         .copy-btn {
             position: absolute;
@@ -173,7 +166,6 @@
         }
         .copy-btn:hover { background: var(--primary); }
 
-        /* Seletor de IAs (Grid) */
         .ai-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .ai-btn {
             background: var(--input-bg);
@@ -187,7 +179,6 @@
         }
         .ai-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* Tabela Cripto */
         .crypto-dashboard {
             background: #05070a;
             padding: 25px;
@@ -201,7 +192,6 @@
         th, td { padding: 15px 10px; border-bottom: 1px solid var(--panel-border); text-align: left; }
         th { color: var(--text-muted); font-weight: normal; font-size: 0.9rem; }
 
-        /* Rodapé de Leads */
         footer {
             background-color: var(--panel-bg);
             border-top: 1px solid var(--panel-border);
@@ -224,18 +214,20 @@
 
     <header>
         <h1>DevTools</h1>
-        <span style="font-size: 0.8rem; color: var(--text-muted);">V 2.0</span>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">V 2.5</span>
     </header>
 
     <div class="tabs">
         <button class="tab-btn active" onclick="switchTool('prompts', this)">🤖 Prompts IA</button>
         <button class="tab-btn" onclick="switchTool('roteiros', this)">✂️ Formatador</button>
         <button class="tab-btn" onclick="switchTool('cripto', this)">📈 Preço Médio</button>
+        <!-- Redirecionamento Externo (Brasileirão) -->
+        <a href="https://brasileirao-dashboard.github.io" target="_blank" class="tab-btn">⚽ Brasileirão ↗</a>
     </div>
 
     <main>
         
-        <!-- Ferramenta 1: Prompts -->
+        <!-- Ferramenta 1: Criador de Prompts -->
         <div id="prompts" class="tool-section active">
             <h2 class="tool-title">Criador de Prompts Mestre</h2>
             
@@ -251,7 +243,7 @@
             <input type="text" id="prompt-role" placeholder="Ex: Programador Sênior em Python">
             
             <label>Descreva a tarefa em detalhes:</label>
-            <textarea id="prompt-task" rows="4" placeholder="O que ele deve fazer?"></textarea>
+            <textarea id="prompt-task" rows="4" placeholder="O que a IA deve fazer?"></textarea>
             
             <button class="action-btn" style="margin-top: 20px;" onclick="generatePrompt()">Gerar Comando Otimizado</button>
             
@@ -310,7 +302,6 @@
 
     </main>
 
-    <!-- Rodapé: Captura de Leads -->
     <footer>
         <h3 style="margin: 0 0 5px 0; font-size: 1.1rem;">Gostou das ferramentas?</h3>
         <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Deixe seu e-mail para ser avisado quando lançarmos novidades.</p>
@@ -324,19 +315,20 @@
 
     <script>
         // ==========================================
-        // ⚠️ COLE O LINK DO SEU GOOGLE SCRIPT ABAIXO
+        // 🔗 SEU GOOGLE SCRIPT DE CAPTURA DE LEADS
         // ==========================================
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwonUGLMgdboTk4nIeDViopd8ulz4q6XLqvRD0ioX0cmOAXlrVgsTgS8c5l-gOJWipZ/exec";
 
-        // Navegação
+        // Navegação (Modificada para não alterar links externos)
         function switchTool(toolId, btnElement) {
             document.querySelectorAll('.tool-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn:not([target="_blank"])').forEach(el => el.classList.remove('active'));
+            
             document.getElementById(toolId).classList.add('active');
             btnElement.classList.add('active');
         }
 
-        // Função Genérica de Copiar
+        // Copiar texto
         function copyText(elementId, btn) {
             const text = document.getElementById(elementId).innerText;
             if(!text || text.includes('aparecerá aqui') || text === 'Resultado...') return;
@@ -352,7 +344,7 @@
             });
         }
 
-        // Captura de Leads
+        // Newsletter Leads Integrado com Google Sheets
         function subscribeLead() {
             const email = document.getElementById('lead-email').value;
             if(!email || !email.includes('@')) {
@@ -380,7 +372,9 @@
             });
         }
 
-        // Lógica do Otimizador de Prompts
+        // ==========================================
+        // LÓGICA DO CRIADOR DE PROMPTS
+        // ==========================================
         let selectedAI = 'chatgpt';
         function selectAI(btn, aiType) {
             document.querySelectorAll('.ai-btn').forEach(el => el.classList.remove('selected'));
@@ -412,36 +406,29 @@
             document.getElementById('prompt-result').innerText = prompt;
         }
 
-        // Lógica do Formatador de Textos
+        // Lógica do Formatador
         function formatScript() {
             const text = document.getElementById('script-input').value;
             if(!text) return;
-            // Quebra após ponto, interrogação ou exclamação, desde que seguido por letra maiúscula ou espaço.
             let formattedText = text.replace(/([.?!])\s*(?=[A-ZÀ-Ÿ])/g, "$1\n\n");
             document.getElementById('script-result').innerText = formattedText;
         }
 
-        // Lógica da Calculadora Cripto
+        // Lógica da Calculadora de Cripto
         let purchases = [];
         function addPurchase() {
             const qtd = parseFloat(document.getElementById('crypto-qtd').value);
             const price = parseFloat(document.getElementById('crypto-price').value);
-            
-            if(!qtd || !price || qtd <= 0 || price <= 0) {
-                alert("Por favor, insira valores válidos maiores que zero.");
-                return;
-            }
-            
+            if(!qtd || !price || qtd <= 0 || price <= 0) return alert("Valores inválidos.");
             purchases.push({ qtd: qtd, price: price, total: qtd * price });
             updateCryptoUI();
-            
             document.getElementById('crypto-qtd').value = '';
             document.getElementById('crypto-price').value = '';
             document.getElementById('crypto-qtd').focus();
         }
         
         function clearPurchases() {
-            if(confirm("Tem certeza que deseja limpar todos os aportes?")) {
+            if(confirm("Tem certeza que deseja limpar tudo?")) {
                 purchases = [];
                 updateCryptoUI();
             }
@@ -450,19 +437,12 @@
         function updateCryptoUI() {
             let totalQtd = 0, totalSpent = 0;
             let tableHTML = `<tr><th>Qtd</th><th>Preço Un.</th><th>Total Pago</th></tr>`;
-            
             purchases.forEach(p => {
                 totalQtd += p.qtd;
                 totalSpent += p.total;
-                tableHTML += `<tr>
-                    <td>${p.qtd}</td>
-                    <td>US$ ${p.price.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
-                    <td>US$ ${p.total.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
-                </tr>`;
+                tableHTML += `<tr><td>${p.qtd}</td><td>US$ ${p.price.toLocaleString('en-US', {minimumFractionDigits: 2})}</td><td>US$ ${p.total.toLocaleString('en-US', {minimumFractionDigits: 2})}</td></tr>`;
             });
-            
             const avgPrice = totalQtd > 0 ? (totalSpent / totalQtd) : 0;
-            
             document.getElementById('average-price').innerText = `US$ ${avgPrice.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
             document.getElementById('total-coins').innerText = totalQtd.toFixed(6);
             document.getElementById('crypto-table').innerHTML = tableHTML;
